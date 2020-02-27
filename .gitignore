@@ -1,0 +1,6 @@
+.DS_Store
+progress.log
+tests/.DS_Store
+tests/__pycache__/*
+util/.DS_Store
+util/__pycache__/*
