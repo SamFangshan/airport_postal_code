@@ -6,12 +6,14 @@ import requests
 import datetime
 import json
 import os
+import logging
 
-headers = {'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/50.0.2661.102 Safari/537.36'}
+HEADERS = {'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/50.0.2661.102 Safari/537.36'}
+logger = logging.getLogger("progress")
 
 def get_max_page_for_letter(letter):
     url = "https://www.world-airport-codes.com/alphabetical/airport-name/{}.html?page=1".format(letter)
-    response = requests.get(url, headers=headers)
+    response = requests.get(url, headers=HEADERS)
     soup = BeautifulSoup(response.text, "html.parser")
     results = soup.find_all('a', attrs={"class":"page-numbers"})
     max_page = 1
@@ -24,7 +26,7 @@ def get_max_page_for_letter(letter):
     return max_page
 
 def get_geo_coord(url):
-    response = requests.get(url, headers=headers)
+    response = requests.get(url, headers=HEADERS)
     soup = BeautifulSoup(response.text, "html.parser")
     result = soup.find('div', attrs={"data-location":True})
     if result is None:
@@ -57,7 +59,7 @@ def get_zip_code(coord):
     return zip_code
 
 def get_attrs(url):
-    response = requests.get(url, headers=headers)
+    response = requests.get(url, headers=HEADERS)
     soup = BeautifulSoup(response.text, "html.parser")
     results = soup.find_all('tr')
     results_new = []
@@ -88,4 +90,8 @@ def get_attrs(url):
                 country = list(e)[1]
         values.append([name, city, country, zip_code])
         print(datetime.datetime.now(), [name, city, country, zip_code])
+        logger.info("{} {}".format(datetime.datetime.now(), [name, city, country, zip_code]))
     return values
+
+if __name__ == '__main__':
+    print("util.attributes_retrieval")
