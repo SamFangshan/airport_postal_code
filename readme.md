@@ -8,6 +8,10 @@ pip install -r requirements.txt
 export API_KEY = your_google_geocoding_api_key
 ```
 ## Run
-```python
+```
 python main.py
+```
+## Test
+```
+python -m unittest discover
 ```
