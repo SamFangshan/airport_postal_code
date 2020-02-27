@@ -1,3 +1,4 @@
+import os
 import string
 from util.attributes_retrieval import get_attrs, get_max_page_for_letter
 
@@ -13,4 +14,6 @@ def main():
     df.to_csv('airport.csv', index = False)
 
 if __name__ == '__main__':
+    if os.getenv("API_KEY") is None:
+        raise Exception("Please specify API_KEY before proceed!")
     main()
