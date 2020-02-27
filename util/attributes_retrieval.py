@@ -29,11 +29,10 @@ def get_geo_coord(url):
     result = soup.find('div', attrs={"data-location":True})
     if result is None:
         return None
-    coord = result["data-location"] # .split(",")
+    coord = result["data-location"]
     return coord
 
 def get_zip_code_by_geopy(coord):
-  # coord = "{}, {}".format(coord[0], coord[1])
     geolocator = Nominatim(user_agent="get_zip_code")
     location = geolocator.reverse(coord)
     try:
@@ -44,7 +43,7 @@ def get_zip_code_by_geopy(coord):
 
 def get_zip_code(coord):
     API_KEY = os.getenv('API_KEY')
-    url = "https://maps.googleapis.com/maps/api/geocode/json?latlng={}&key=AIzaSyCRHGA9U7gfMAOqufv_8wQGqLo_5v-yLtk".format(coord)
+    url = "https://maps.googleapis.com/maps/api/geocode/json?latlng={}&key={}".format(coord, API_KEY)
     response = requests.get(url)
     response = json.loads(response.text)
     zip_code = None
